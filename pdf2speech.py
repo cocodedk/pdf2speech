@@ -20,7 +20,13 @@ LENGTH_SCALE = 1.33
 
 def extract_text(pdf_path: Path) -> str:
     reader = PdfReader(pdf_path)
-    text = "\n".join(page.extract_text() or "" for page in reader.pages)
+    pages = []
+    for page in reader.pages:
+        page_text = page.extract_text() or ""
+        # Drop a bare page number sitting on its own line at the end of the
+        # page, so it isn't read aloud mid-sentence.
+        pages.append(re.sub(r"\n\s*\d{1,4}\s*$", "", page_text))
+    text = "\n".join(pages)
     # Re-join words hyphenated across line breaks: "exam-\nple" -> "example"
     text = re.sub(r"(\w)-\n(\w)", r"\1\2", text)
     # Collapse layout line breaks and repeated whitespace; sentence
