@@ -1,2 +1,5 @@
 piper-tts>=1.4,<2
 pypdf>=6,<7
+pypdfium2>=4
+imageio-ffmpeg>=0.5
+pillow>=10

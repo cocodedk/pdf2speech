@@ -16,6 +16,18 @@ text-to-speech engine, using the `en_US-lessac-medium` voice.
 
 Play the result with any audio player, e.g. `aplay out.wav` or `mpv out.wav`.
 
+## MP3 + YouTube-ready MP4
+
+`make_audiobook` narrates a PDF **or Markdown** file and writes both an MP3
+and an MP4 (H.264 + AAC, 1920x1080) that can be uploaded to YouTube directly.
+The video shows a static cover: the first page for PDFs, a generated title
+card (from the first `#` heading) for Markdown.
+
+```sh
+./make_audiobook mybook.pdf            # writes mybook.mp3 + mybook.mp4
+./make_audiobook notes.md -o ~/out/    # choose the output directory
+```
+
 ## Setup (already done in this checkout)
 
 ```sh

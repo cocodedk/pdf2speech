@@ -27,6 +27,23 @@ def extract_text(pdf_path: Path) -> str:
     return re.sub(r"\s+", " ", text).strip()
 
 
+def require_voice_model() -> None:
+    if not VOICE_MODEL.is_file():
+        sys.exit(
+            f"error: voice model missing at {VOICE_MODEL}\n"
+            "Download it with:\n"
+            "  .venv/bin/python -m piper.download_voices en_US-lessac-medium --data-dir voices"
+        )
+
+
+def synthesize(text: str, wav_path: Path) -> None:
+    voice = PiperVoice.load(VOICE_MODEL)
+    with wave.open(str(wav_path), "wb") as wav_file:
+        voice.synthesize_wav(
+            text, wav_file, syn_config=SynthesisConfig(length_scale=LENGTH_SCALE)
+        )
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(
         description="Convert an English text PDF to a spoken WAV file."
@@ -42,12 +59,7 @@ def main() -> None:
 
     if not args.pdf.is_file():
         sys.exit(f"error: file not found: {args.pdf}")
-    if not VOICE_MODEL.is_file():
-        sys.exit(
-            f"error: voice model missing at {VOICE_MODEL}\n"
-            "Download it with:\n"
-            "  .venv/bin/python -m piper.download_voices en_US-lessac-medium --data-dir voices"
-        )
+    require_voice_model()
 
     text = extract_text(args.pdf)
     if not text:
