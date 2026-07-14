@@ -97,6 +97,18 @@ def main() -> None:
         type=Path,
         help="directory for the .mp3/.mp4 (default: next to the input)",
     )
+    parser.add_argument(
+        "--engine",
+        choices=("kokoro", "piper"),
+        default="kokoro",
+        help="TTS engine: kokoro (most natural, ~3x realtime) or piper (fastest)",
+    )
+    parser.add_argument(
+        "--voice",
+        default="af_heart",
+        help="kokoro voice, e.g. af_heart (female) or am_michael (male); "
+        "ignored with --engine piper",
+    )
     args = parser.parse_args()
 
     src = args.input
@@ -116,7 +128,8 @@ def main() -> None:
             "error: no text could be extracted from this PDF. "
             "It is probably a scanned/image-only PDF, which would need OCR."
         )
-    require_voice_model()
+    if args.engine == "piper":
+        require_voice_model()
 
     out_dir = args.output_dir or src.parent
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -126,7 +139,12 @@ def main() -> None:
     print(f"Extracted {len(text.split())} words from {src.name}. Synthesizing speech...")
     with tempfile.TemporaryDirectory() as tmp:
         wav = Path(tmp) / "audio.wav"
-        synthesize(text, wav)
+        if args.engine == "kokoro":
+            import kokoro_speech
+
+            kokoro_speech.synthesize(text, wav, voice=args.voice)
+        else:
+            synthesize(text, wav)
         with wave.open(str(wav), "rb") as wav_file:
             seconds = wav_file.getnframes() / wav_file.getframerate()
         print(f"Synthesized {seconds / 60:.1f} minutes of audio. Encoding MP3...")

@@ -29,6 +29,21 @@ card (from the first `#` heading) for Markdown.
 ./make_audiobook notes.md -o ~/out/    # choose the output directory
 ```
 
+Two TTS engines are available:
+
+- `--engine kokoro` (default) — [Kokoro-82M](https://huggingface.co/hexgrad/Kokoro-82M),
+  the most natural voice, ~3x realtime on CPU. Pick a narrator with
+  `--voice`: `af_heart` (female, default) or `am_michael` (male) are the
+  best; the model downloads from Hugging Face on first use.
+- `--engine piper` — the Piper voice above, ~30x realtime, for quick runs.
+
+Note: install the CPU build of torch **before** the requirements, or pip
+will pull the huge CUDA build:
+
+```sh
+.venv/bin/pip install torch --index-url https://download.pytorch.org/whl/cpu
+```
+
 ## Setup (already done in this checkout)
 
 ```sh
