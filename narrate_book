@@ -1,0 +1,3 @@
+#!/bin/sh
+# Run narrate_book.py with the project's virtualenv.
+exec "$(dirname "$0")/.venv/bin/python" "$(dirname "$0")/narrate_book.py" "$@"

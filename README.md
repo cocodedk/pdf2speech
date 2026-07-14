@@ -29,6 +29,18 @@ card (from the first `#` heading) for Markdown.
 ./make_audiobook notes.md -o ~/out/    # choose the output directory
 ```
 
+## Narrate a book from chapter Markdown files
+
+`narrate_book` reads a folder of per-chapter `.md` files (in filename order)
+and produces one MP3 + MP4 with human-friendly pauses: after chapter
+headings (`## 3. Name` is spoken as "Chapter 3. Name"), after epigraphs
+(`>` blocks, last line read as the attribution), a short breath between
+paragraphs, and a long rest at chapter ends. YAML frontmatter is skipped.
+
+```sh
+./narrate_book mybook/chapters --voice am_michael --cover-pdf mybook.pdf
+```
+
 Two TTS engines are available:
 
 - `--engine kokoro` (default) — [Kokoro-82M](https://huggingface.co/hexgrad/Kokoro-82M),
