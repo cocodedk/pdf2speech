@@ -12,9 +12,10 @@ from pypdf import PdfReader
 
 VOICE_MODEL = Path(__file__).resolve().parent / "voices" / "en_US-lessac-medium.onnx"
 
-# 1.0 is the voice's natural pace (~160 words per minute, a comfortable
-# audiobook speed). Higher = slower, lower = faster.
-LENGTH_SCALE = 1.0
+# Stretch factor for speech duration: 1.0 is the voice's natural pace,
+# higher = slower. 1.33 reads 25% slower than natural, an unhurried
+# narration speed. Lower it toward 1.0 to speed back up.
+LENGTH_SCALE = 1.33
 
 
 def extract_text(pdf_path: Path) -> str:

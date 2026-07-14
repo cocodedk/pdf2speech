@@ -1,7 +1,8 @@
 # pdf2speech
 
-Converts any English text PDF into spoken audio (a WAV file), read at a
-moderate, audiobook-like pace (~160 words per minute — neither fast nor slow).
+Converts any English text PDF into spoken audio (a WAV file), read at an
+unhurried audiobook pace (25% slower than the voice's natural speed; see
+`LENGTH_SCALE` in `pdf2speech.py` to adjust).
 
 Runs fully offline: text is extracted with [pypdf](https://pypi.org/project/pypdf/)
 and spoken with [Piper](https://github.com/OHF-Voice/piper1-gpl), a neural
