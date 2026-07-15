@@ -34,6 +34,9 @@ PAUSE_EPIGRAPH = 1.8
 PAUSE_PARAGRAPH = 0.5
 PAUSE_CHAPTER_END = 3.0
 
+# Piper pacing for the piper engine (matches the auditioned fa_IR samples).
+PIPER_LENGTH_SCALE = 1.1
+
 
 def clean_inline(text: str) -> str:
     text = re.sub(r"!\[[^\]]*\]\([^)]*\)", " ", text)  # images
@@ -44,10 +47,10 @@ def clean_inline(text: str) -> str:
 
 
 def end_sentence(text: str) -> str:
-    return text if text[-1] in ".!?" else text + "."
+    return text if text[-1] in ".!?؟…" else text + "."
 
 
-def parse_chapter(md_path: Path) -> list[tuple[str, float]]:
+def parse_chapter(md_path: Path, chapter_label: str = "Chapter") -> list[tuple[str, float]]:
     """Return the chapter as (text, pause_after_seconds) segments."""
     lines = md_path.read_text(encoding="utf-8").splitlines()
     if lines and lines[0].strip() == "---":  # yaml frontmatter
@@ -64,9 +67,9 @@ def parse_chapter(md_path: Path) -> list[tuple[str, float]]:
             i += 1
         elif line.startswith("## "):
             heading = line[3:].strip()
-            numbered = re.match(r"(\d+)\.\s*(.+)", heading)
+            numbered = re.match(r"(\d+)\.\s*(.+)", heading)  # \d matches ۱۲۳ too
             if numbered:
-                heading = f"Chapter {numbered.group(1)}. {numbered.group(2)}"
+                heading = f"{chapter_label} {numbered.group(1)}. {numbered.group(2)}"
             segments.append((end_sentence(heading), PAUSE_HEADING))
             i += 1
         elif line.startswith("# "):
@@ -114,7 +117,26 @@ def main() -> None:
         type=Path,
         help="directory for the .mp3/.mp4 (default: parent of the chapters folder)",
     )
-    parser.add_argument("--voice", default="af_heart", help="kokoro voice, e.g. am_michael")
+    parser.add_argument(
+        "--engine",
+        choices=("kokoro", "piper"),
+        default="kokoro",
+        help="TTS engine (kokoro has no Persian; use piper with a fa_IR voice)",
+    )
+    parser.add_argument(
+        "--voice",
+        default="af_heart",
+        help="kokoro voice (e.g. am_michael) or piper model name "
+        "(e.g. fa_IR-ganji_adabi-medium, looked up in voices/)",
+    )
+    parser.add_argument(
+        "--chapter-label",
+        default="Chapter",
+        help='word spoken before numbered chapter headings (e.g. "فصل")',
+    )
+    parser.add_argument(
+        "--name", help="output base name (default: a slug of the book title)"
+    )
     parser.add_argument(
         "--cover-pdf",
         type=Path,
@@ -127,7 +149,7 @@ def main() -> None:
     if not md_files:
         sys.exit(f"error: no .md files in {args.chapters_dir}")
 
-    chapters = [(f.name, parse_chapter(f)) for f in md_files]
+    chapters = [(f.name, parse_chapter(f, args.chapter_label)) for f in md_files]
     chapters = [(name, segs) for name, segs in chapters if segs]
     if not chapters:
         sys.exit(f"error: no narratable text in {args.chapters_dir}")
@@ -137,9 +159,9 @@ def main() -> None:
     # chapter heading — then fall back to the folder's parent name.
     title = args.chapters_dir.resolve().parent.name
     first_segment = chapters[0][1][0][0]
-    if not first_segment.startswith("Chapter"):
+    if not first_segment.startswith(args.chapter_label):
         title = first_segment.rstrip(".")
-    slug = re.sub(r"[^a-z0-9]+", "-", title.lower()).strip("-") or "book"
+    slug = args.name or re.sub(r"[^a-z0-9]+", "-", title.lower()).strip("-") or "book"
 
     out_dir = args.output_dir or args.chapters_dir.resolve().parent
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -148,22 +170,46 @@ def main() -> None:
 
     print(f"Narrating {len(chapters)} files, {words} words...")
     warnings.filterwarnings("ignore")
-    from kokoro import KPipeline  # imports torch; keep out of module load
+    if args.engine == "kokoro":
+        from kokoro import KPipeline  # imports torch; keep out of module load
 
-    pipeline = KPipeline(lang_code=args.voice[0], repo_id="hexgrad/Kokoro-82M")
+        pipeline = KPipeline(lang_code=args.voice[0], repo_id="hexgrad/Kokoro-82M")
+        sample_rate = SAMPLE_RATE
+
+        def speak(text: str, wav_file: wave.Wave_write) -> None:
+            for _, _, audio in pipeline(text, voice=args.voice, speed=SPEED):
+                pcm = (np.clip(audio.numpy(), -1.0, 1.0) * 32767).astype("<i2")
+                wav_file.writeframes(pcm.tobytes())
+
+    else:
+        from piper import PiperVoice, SynthesisConfig
+
+        model = Path(__file__).resolve().parent / "voices" / f"{args.voice}.onnx"
+        if not model.is_file():
+            sys.exit(
+                f"error: piper voice missing at {model}\nDownload it with:\n"
+                f"  .venv/bin/python -m piper.download_voices {args.voice} --data-dir voices"
+            )
+        piper_voice = PiperVoice.load(model)
+        sample_rate = piper_voice.config.sample_rate
+        syn_config = SynthesisConfig(length_scale=PIPER_LENGTH_SCALE)
+
+        def speak(text: str, wav_file: wave.Wave_write) -> None:
+            piper_voice.synthesize_wav(
+                text, wav_file, syn_config=syn_config, set_wav_format=False
+            )
+
     with tempfile.TemporaryDirectory() as tmp:
         wav_path = Path(tmp) / "audio.wav"
         with wave.open(str(wav_path), "wb") as wav_file:
             wav_file.setnchannels(1)
             wav_file.setsampwidth(2)
-            wav_file.setframerate(SAMPLE_RATE)
+            wav_file.setframerate(sample_rate)
             for name, segments in chapters:
                 print(f"  {name} ({len(segments)} segments)")
                 for text, pause in segments:
-                    for _, _, audio in pipeline(text, voice=args.voice, speed=SPEED):
-                        pcm = (np.clip(audio.numpy(), -1.0, 1.0) * 32767).astype("<i2")
-                        wav_file.writeframes(pcm.tobytes())
-                    wav_file.writeframes(b"\x00\x00" * int(pause * SAMPLE_RATE))
+                    speak(text, wav_file)
+                    wav_file.writeframes(b"\x00\x00" * int(pause * sample_rate))
 
         with wave.open(str(wav_path), "rb") as wav_file:
             seconds = wav_file.getnframes() / wav_file.getframerate()

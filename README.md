@@ -41,6 +41,14 @@ paragraphs, and a long rest at chapter ends. YAML frontmatter is skipped.
 ./narrate_book mybook/chapters --voice am_michael --cover-pdf mybook.pdf
 ```
 
+Non-English books can use the Piper engine (Kokoro has no Persian) with a
+spoken chapter label and an explicit output name:
+
+```sh
+./narrate_book mybook/persian --engine piper --voice fa_IR-ganji_adabi-medium \
+    --chapter-label فصل --cover-pdf mybook-fa.pdf --name mybook-fa
+```
+
 Two TTS engines are available:
 
 - `--engine kokoro` (default) — [Kokoro-82M](https://huggingface.co/hexgrad/Kokoro-82M),

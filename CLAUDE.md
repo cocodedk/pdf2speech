@@ -42,8 +42,10 @@ quality ceiling is whatever runs locally.
   Persian opening: `~/projects/books/unjudgeable/voice-samples/piper-fa-*`.
 - Persian script omits the ezafe, so TTS guesses it and natives hear the
   misses. Sample-check with the author before committing to a full run.
-- A Persian `narrate_book` run needs: Piper engine support, Persian-digit
-  chapter numbers (`## ۱.`), and a "فصل" chapter label instead of "Chapter".
+- `narrate_book` supports Persian via `--engine piper --voice
+  fa_IR-ganji_adabi-medium --chapter-label فصل --name <base>`. Python's
+  `\d` matches Persian digits, so `## ۱.` headings become «فصل ۱. ...».
+  Piper pace for this path is `PIPER_LENGTH_SCALE` (1.1, as auditioned).
 
 ## Environment quirks
 
@@ -93,7 +95,8 @@ quality ceiling is whatever runs locally.
   project: **narration is on hold** (author, 2026-07-15; do not run or
   suggest `build_all.fish` / narration until the text settles), the repo is
   private, and its house style bans em-dashes.
-- `build_all.fish` there = rebuild PDFs + `narrate_book english --voice
-  am_michael --cover-pdf unjudgeable.pdf`; outputs `unjudgeable.mp3/.mp4`
-  in the book root (gitignored).
+- `build_all.fish` there = rebuild PDFs + narrate BOTH editions:
+  English via Kokoro `am_michael` -> `unjudgeable.mp3/.mp4`, Persian via
+  Piper `fa_IR-ganji_adabi-medium` with «فصل» labels ->
+  `unjudgeable-fa.mp3/.mp4`; all in the book root (gitignored).
 - `voice-samples/` there holds all auditioned voices (English and Persian).
