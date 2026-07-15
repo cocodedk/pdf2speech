@@ -199,6 +199,7 @@ def main() -> None:
                 text, wav_file, syn_config=syn_config, set_wav_format=False
             )
 
+    chapter_marks: list[tuple[str, float]] = []
     with tempfile.TemporaryDirectory() as tmp:
         wav_path = Path(tmp) / "audio.wav"
         with wave.open(str(wav_path), "wb") as wav_file:
@@ -207,6 +208,11 @@ def main() -> None:
             wav_file.setframerate(sample_rate)
             for name, segments in chapters:
                 print(f"  {name} ({len(segments)} segments)")
+                # Chapter start = frames written so far; the spoken heading is
+                # the chapter's display title (trailing period dropped).
+                chapter_marks.append(
+                    (segments[0][0].rstrip("."), wav_file.tell() / sample_rate)
+                )
                 for text, pause in segments:
                     speak(text, wav_file)
                     wav_file.writeframes(b"\x00\x00" * int(pause * sample_rate))
@@ -214,6 +220,31 @@ def main() -> None:
         with wave.open(str(wav_path), "rb") as wav_file:
             seconds = wav_file.getnframes() / wav_file.getframerate()
         print(f"Synthesized {seconds / 60:.1f} minutes of audio. Encoding MP3...")
+
+        # YouTube chapter list: description-ready timestamps. YouTube needs the
+        # first stamp at 0:00 and at least 10 seconds per chapter, so any
+        # section shorter than that (the title page) is folded into the next
+        # chapter, which inherits the earlier start time.
+        merged: list[tuple[str, float]] = []
+        for mark_title, start in chapter_marks:
+            if merged and start - merged[-1][1] < 10.0:
+                merged[-1] = (mark_title, merged[-1][1])
+            else:
+                merged.append((mark_title, start))
+
+        def stamp(t: float) -> str:
+            hours, rem = divmod(int(t), 3600)
+            minutes, secs = divmod(rem, 60)
+            if seconds >= 3600:
+                return f"{hours}:{minutes:02d}:{secs:02d}"
+            return f"{minutes}:{secs:02d}"
+
+        chapters_txt = out_dir / f"{slug}-chapters.txt"
+        chapters_txt.write_text(
+            "".join(f"{stamp(start)} {mark_title}\n" for mark_title, start in merged),
+            encoding="utf-8",
+        )
+        print(f"Wrote {chapters_txt} (YouTube chapter list).")
         run_ffmpeg(["-i", str(wav_path), "-c:a", "libmp3lame", "-b:a", "192k", str(mp3)])
         print(f"Wrote {mp3}. Encoding MP4...")
 
