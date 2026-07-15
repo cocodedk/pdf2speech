@@ -37,9 +37,10 @@ quality ceiling is whatever runs locally.
 ## Persian
 
 - Kokoro has **no Persian**. Local ceiling is Piper's five fa_IR medium
-  voices: `amir`, `ganji`, `ganji_adabi` (literary register, likely best
-  for fiction), `gyro`, `reza_ibrahim`. Samples from the book's actual
-  Persian opening: `~/projects/books/unjudgeable/voice-samples/piper-fa-*`.
+  voices: `amir`, `ganji`, `ganji_adabi`, `gyro`, `reza_ibrahim`. The
+  author auditioned all five and picked **`ganji` (best reading and pace,
+  2026-07-15)** as the default. Samples from the book's actual Persian
+  opening: `~/projects/books/unjudgeable/voice-samples/piper-fa-*`.
 - Persian script omits the ezafe, so TTS guesses it and natives hear the
   misses. Sample-check with the author before committing to a full run.
 - `narrate_book` supports Persian via `--engine piper --voice
@@ -97,6 +98,6 @@ quality ceiling is whatever runs locally.
   private, and its house style bans em-dashes.
 - `build_all.fish` there = rebuild PDFs + narrate BOTH editions:
   English via Kokoro `am_michael` -> `unjudgeable.mp3/.mp4`, Persian via
-  Piper `fa_IR-ganji_adabi-medium` with «فصل» labels ->
+  Piper `fa_IR-ganji-medium` with «فصل» labels ->
   `unjudgeable-fa.mp3/.mp4`; all in the book root (gitignored).
 - `voice-samples/` there holds all auditioned voices (English and Persian).
