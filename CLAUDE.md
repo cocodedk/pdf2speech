@@ -34,7 +34,7 @@ quality ceiling is whatever runs locally.
 - Piper wpm varies with word length: ~160 wpm on academic text, ~200 on
   fiction, same engine settings. Judge pace by listening, not wpm math.
 
-## Persian
+## Other languages (Persian, Danish)
 
 - Kokoro has **no Persian**. Local ceiling is Piper's five fa_IR medium
   voices: `amir`, `ganji`, `ganji_adabi`, `gyro`, `reza_ibrahim`. The
@@ -43,10 +43,13 @@ quality ceiling is whatever runs locally.
   opening: `~/projects/books/unjudgeable/voice-samples/piper-fa-*`.
 - Persian script omits the ezafe, so TTS guesses it and natives hear the
   misses. Sample-check with the author before committing to a full run.
-- `narrate_book` supports Persian via `--engine piper --voice
-  fa_IR-ganji_adabi-medium --chapter-label فصل --name <base>`. Python's
-  `\d` matches Persian digits, so `## ۱.` headings become «فصل ۱. ...».
-  Piper pace for this path is `PIPER_LENGTH_SCALE` (1.1, as auditioned).
+- `narrate_book` supports any local Piper voice via `--engine piper
+  --voice <model> --chapter-label <word> --name <base>`. Python's `\d`
+  matches Persian digits, so `## ۱.` headings become «فصل ۱. ...». Piper
+  pace for this path is `PIPER_LENGTH_SCALE` (1.1, as auditioned).
+- **Danish**: Piper has exactly one voice, `da_DK-talesyntese-medium`
+  (no alternative locally; Kokoro has no Danish). Used with
+  `--chapter-label Kapitel`. Sample: `voice-samples/piper-da-talesyntese.mp3`.
 
 ## Environment quirks
 
@@ -96,8 +99,9 @@ quality ceiling is whatever runs locally.
   project: **narration is on hold** (author, 2026-07-15; do not run or
   suggest `build_all.fish` / narration until the text settles), the repo is
   private, and its house style bans em-dashes.
-- `build_all.fish` there = rebuild PDFs + narrate BOTH editions:
+- `build_all.fish` there = rebuild PDFs + narrate ALL editions:
   English via Kokoro `am_michael` -> `unjudgeable.mp3/.mp4`, Persian via
-  Piper `fa_IR-ganji-medium` with «فصل» labels ->
-  `unjudgeable-fa.mp3/.mp4`; all in the book root (gitignored).
+  Piper `fa_IR-ganji-medium` with «فصل» labels -> `unjudgeable-fa.mp3/.mp4`,
+  Danish via Piper `da_DK-talesyntese-medium` with "Kapitel" labels ->
+  `unjudgeable-da.mp3/.mp4`; all in the book root (gitignored).
 - `voice-samples/` there holds all auditioned voices (English and Persian).
