@@ -1,0 +1,64 @@
+#!/bin/sh
+# Pre-push hook:
+#   1. Owner lock       - only allow pushing to cocodedk-owned remotes.
+#   2. Protected branches - block deletion/force-push of main-line branches.
+#   3. Verification gate - run the test suite before allowing the push.
+set -eu
+
+REMOTE_NAME="$1"
+REMOTE_URL="$2"
+
+OWNER="cocodedk"
+
+# --- Part 1: owner lock ------------------------------------------------
+case "$REMOTE_URL" in
+    https://github.com/"$OWNER"/*|git@github.com:"$OWNER"/*|ssh://git@github.com/"$OWNER"/*)
+        ;;
+    *)
+        echo "Refusing to push: remote '$REMOTE_NAME' ($REMOTE_URL) is not owned by '$OWNER'." >&2
+        echo "Only https://github.com/$OWNER/*, git@github.com:$OWNER/*, or ssh://git@github.com/$OWNER/* are allowed." >&2
+        exit 1
+        ;;
+esac
+
+# --- Part 2: protected branches ----------------------------------------
+ZERO="0000000000000000000000000000000000000000"
+
+while read -r local_ref local_sha remote_ref remote_sha; do
+    [ -z "$local_ref" ] && continue
+
+    case "$remote_ref" in
+        refs/heads/main|refs/heads/master|refs/heads/trunk|refs/heads/production|refs/heads/prod|refs/heads/release)
+            ;;
+        *)
+            continue
+            ;;
+    esac
+
+    # Block deletion of a protected branch.
+    if [ "$local_sha" = "$ZERO" ]; then
+        echo "Refusing to delete protected branch '$remote_ref'." >&2
+        echo "Bypass (not recommended): git push --no-verify" >&2
+        exit 1
+    fi
+
+    # Block non-fast-forward (force) pushes to a protected branch.
+    if [ "$remote_sha" != "$ZERO" ]; then
+        if ! git merge-base --is-ancestor "$remote_sha" "$local_sha"; then
+            echo "Refusing non-fast-forward push to protected branch '$remote_ref'." >&2
+            echo "Bypass (not recommended): git push --no-verify" >&2
+            exit 1
+        fi
+    fi
+done
+
+# --- Part 3: verification gate ------------------------------------------
+[ "${PREPUSH_SKIP_TESTS:-}" = "1" ] && exit 0
+# Set PREPUSH_SKIP_TESTS=1 to skip the test run (e.g. for a CI-verified
+# emergency push where the suite has already passed elsewhere).
+
+VERIFY="$(git rev-parse --show-toplevel)/.venv/bin/pytest"
+[ -x "$VERIFY" ] || VERIFY=pytest
+
+echo "Running test suite before push (set PREPUSH_SKIP_TESTS=1 to skip)..."
+"$VERIFY" -q

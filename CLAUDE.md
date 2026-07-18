@@ -4,6 +4,38 @@ Local text-to-speech toolkit: turn English PDFs/Markdown into audio and
 YouTube-ready video. Everything below is hard-won operational knowledge;
 read it before changing synthesis code.
 
+## Project Overview
+
+- **Language:** Python 3.12.
+- **Framework:** none — plain scripts run through a project `.venv`, with
+  thin shell wrappers (`./pdf2speech`, `./make_audiobook`, `./narrate_book`)
+  that invoke `.venv/bin/python` on the matching `*.py` module.
+- **Repo:** [github.com/cocodedk/pdf2speech](https://github.com/cocodedk/pdf2speech).
+
+## Required Skills — ALWAYS Invoke These
+
+| Skill | When |
+| --- | --- |
+| `superpowers:brainstorming` | Before any new feature |
+| `superpowers:writing-plans` | Planning multi-step changes |
+| `superpowers:test-driven-development` | Writing or fixing core logic |
+| `superpowers:systematic-debugging` | First sign of a bug |
+| `superpowers:requesting-code-review` | Before completing a feature branch |
+| `superpowers:verification-before-completion` | Before claiming done |
+| `frontend-design:frontend-design` | UI/frontend work |
+| `simplify` | After implementing |
+
+## Engineering Principles
+
+- **200-line file maximum.** Split files that grow past 200 lines.
+- **DRY, SOLID, KISS, YAGNI.** Prefer the simplest design that solves the
+  problem in front of you; don't build for hypothetical future needs.
+- **TDD: write a failing test first**, then the minimum code to pass it,
+  then refactor.
+- **Conventional Commits**, enforced locally by the `commit-msg` git hook
+  (see CONTRIBUTING.md) — non-conforming commit messages are rejected
+  before they ever reach CI.
+
 ## Hard constraint: local-only TTS
 
 **All TTS must run on this machine (author's rule, 2026-07-15).** Do not
@@ -109,3 +141,21 @@ quality ceiling is whatever runs locally.
   book root by default (narrate_book defaults to the chapters folder's
   parent).
 - `voice-samples/` there holds all auditioned voices (English and Persian).
+
+## Build Commands
+
+```sh
+.venv/bin/pytest -q
+.venv/bin/ruff check .
+
+./pdf2speech mybook.pdf
+./make_audiobook mybook.pdf
+./narrate_book mybook/chapters --voice am_michael --cover-pdf mybook.pdf
+```
+
+## Starting a New Session
+
+1. Read this file top to bottom.
+2. Run `.venv/bin/pytest -q` and confirm the suite is green before touching
+   anything.
+3. Follow the Required Skills table above for the shape of work at hand.

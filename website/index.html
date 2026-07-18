@@ -1,0 +1,212 @@
+<!--
+  SEO notes (pdf2speech, English page)
+  Primary keyword:   PDF to audiobook converter (offline)
+  Secondary keywords: offline text-to-speech, neural TTS, Kokoro-82M, Piper TTS,
+                       YouTube audiobook video, chapter-aware narration,
+                       Persian text to speech, Danish text to speech,
+                       local / self-hosted TTS tool
+  Search intent:     Informational-to-transactional. Developers, indie authors,
+                      and self-publishers who want to turn a PDF or a folder of
+                      chapter Markdown into a narrated audiobook and a
+                      YouTube-ready video, running entirely on their own
+                      machine, without a cloud TTS subscription or API key.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PDF to Audiobook Converter: Offline, Chapter-Aware TTS</title>
+<meta name="description" content="pdf2speech converts a PDF or chapter Markdown into an audiobook MP3 and a YouTube-ready MP4, narrated offline with Kokoro and Piper neural voices.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://cocodedk.github.io/pdf2speech/">
+<link rel="alternate" hreflang="en" href="https://cocodedk.github.io/pdf2speech/">
+<link rel="alternate" hreflang="fa" href="https://cocodedk.github.io/pdf2speech/fa/">
+<link rel="alternate" hreflang="x-default" href="https://cocodedk.github.io/pdf2speech/">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="styles.css">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="pdf2speech">
+<meta property="og:title" content="PDF to Audiobook Converter: Offline, Chapter-Aware TTS">
+<meta property="og:description" content="pdf2speech converts a PDF or chapter Markdown into an audiobook MP3 and a YouTube-ready MP4, narrated offline with Kokoro and Piper neural voices.">
+<meta property="og:url" content="https://cocodedk.github.io/pdf2speech/">
+<meta property="og:image" content="https://cocodedk.github.io/pdf2speech/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="pdf2speech: an open book with a sound wave rising from it">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="fa_IR">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="PDF to Audiobook Converter: Offline, Chapter-Aware TTS">
+<meta name="twitter:description" content="pdf2speech converts a PDF or chapter Markdown into an audiobook MP3 and a YouTube-ready MP4, narrated offline with Kokoro and Piper neural voices.">
+<meta name="twitter:image" content="https://cocodedk.github.io/pdf2speech/og.png">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "pdf2speech",
+  "alternateName": "narrate_book",
+  "description": "Offline toolkit that converts a PDF or a folder of chapter Markdown files into a narrated audiobook MP3 and a YouTube-ready MP4, using local neural TTS (Kokoro-82M and Piper) with chapter-aware pacing.",
+  "applicationCategory": "MultimediaApplication",
+  "operatingSystem": "Linux, macOS",
+  "url": "https://cocodedk.github.io/pdf2speech/",
+  "codeRepository": "https://github.com/cocodedk/pdf2speech",
+  "license": "https://www.apache.org/licenses/LICENSE-2.0",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Babak Bandpey",
+    "url": "https://cocode.dk",
+    "sameAs": [
+      "https://linkedin.com/in/babakbandpey",
+      "https://github.com/cocodedk"
+    ]
+  }
+}
+</script>
+</head>
+<body>
+
+<header class="site">
+  <div class="container">
+    <a class="brand" href="./">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#0e1116"/><path d="M32 30 C 24 25 12 26 8 31 L8 47 C 12 42 24 41 32 46 Z" fill="#f2ead9"/><path d="M32 30 C 40 25 52 26 56 31 L56 47 C 52 42 40 41 32 46 Z" fill="#f2ead9"/><path d="M23 21 Q 32 12 41 21" fill="none" stroke="#e8a33d" stroke-width="3.4" stroke-linecap="round"/><path d="M17 26 Q 32 6 47 26" fill="none" stroke="#e8a33d" stroke-width="3.4" stroke-linecap="round"/></svg>
+      pdf2speech
+    </a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="#features">Features</a>
+      <a href="#install">Install</a>
+      <a href="#usage">Usage</a>
+      <a href="https://github.com/cocodedk/pdf2speech" target="_blank" rel="noreferrer">GitHub</a>
+      <a href="fa/" class="lang-switch" hreflang="fa">فارسی</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <section class="hero">
+    <div class="container">
+      <p class="kicker">Offline text-to-speech toolkit</p>
+      <h1>PDF to audiobook, narrated with real pacing, entirely offline</h1>
+      <p class="lede">pdf2speech reads your PDF, or a folder of chapter Markdown files, aloud with neural text-to-speech, adds the pauses a human narrator would use, and hands you an MP3 and a YouTube-ready video. Nothing leaves your machine.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="https://github.com/cocodedk/pdf2speech" target="_blank" rel="noreferrer">Read the source on GitHub</a>
+        <a class="btn btn-secondary" href="#install">Jump to install</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="features">
+    <div class="container">
+      <h2>What it does</h2>
+      <p class="section-intro">Five things that matter if you are turning a manuscript into something people will actually listen to.</p>
+      <div class="feature-grid">
+        <div class="feature">
+          <h3>Offline and private</h3>
+          <p>Everything runs on your machine. No API keys, no upload, no subscription, no bill that scales with the length of your book.</p>
+        </div>
+        <div class="feature">
+          <h3>Natural voices</h3>
+          <p>Kokoro-82M for expressive English narration, or Piper when you need speed, or a language Kokoro does not cover.</p>
+        </div>
+        <div class="feature">
+          <h3>Paced like a person is reading</h3>
+          <p>Chapter announcements, a beat after epigraphs, a breath between paragraphs, and a longer rest at chapter ends.</p>
+        </div>
+        <div class="feature">
+          <h3>YouTube-ready out of the box</h3>
+          <p>H.264 1080p video with a cover pulled from your book's first page, or a generated title card, plus a chapter list with real timestamps to paste into the description.</p>
+        </div>
+        <div class="feature">
+          <h3>Multilingual, proven in production</h3>
+          <p>English, Persian (فارسی), and Danish, with voices auditioned by ear rather than picked off a list.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="how-it-works">
+    <div class="container">
+      <h2>How it works</h2>
+      <ol class="steps">
+        <li>
+          <span class="num">1</span>
+          <h3>Point it at your text</h3>
+          <p>A single PDF for a quick draft, or a folder of chapter Markdown files for book-length narration with structured pauses.</p>
+        </li>
+        <li>
+          <span class="num">2</span>
+          <h3>Pick a voice and an engine</h3>
+          <p>Kokoro for the most natural English narrator, Piper when you want speed or need a language Kokoro does not have, such as Persian or Danish.</p>
+        </li>
+        <li>
+          <span class="num">3</span>
+          <h3>Get files ready to publish</h3>
+          <p>An MP3, an MP4, and a chapter-timestamp file land next to your source, ready for an audiobook feed or a YouTube upload.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="install">
+    <div class="container">
+      <h2>Install</h2>
+      <p class="section-intro">Five commands, run once. The CPU build of torch has to go in before <code>requirements.txt</code>, or pip pulls the multi-gigabyte CUDA build instead.</p>
+      <pre><code>git clone https://github.com/cocodedk/pdf2speech
+cd pdf2speech
+python3 -m venv .venv
+.venv/bin/pip install torch --index-url https://download.pytorch.org/whl/cpu
+.venv/bin/pip install -r requirements.txt
+.venv/bin/python -m piper.download_voices en_US-lessac-medium --data-dir voices</code></pre>
+      <p class="note">Kokoro's model downloads automatically from Hugging Face the first time you use it (about 330 MB). Other Piper voices, including the Persian and Danish ones, use the same <code>download_voices</code> command with a different model name.</p>
+    </div>
+  </section>
+
+  <section id="usage">
+    <div class="container">
+      <h2>Usage</h2>
+      <p class="section-intro">Three tools, in order of how much book you are feeding them.</p>
+
+      <div class="usage-block">
+        <h3>pdf2speech: quick WAV</h3>
+        <p>A fast draft tool. One PDF in, one WAV out, read by Piper at an unhurried pace.</p>
+        <pre><code>./pdf2speech mybook.pdf
+./pdf2speech mybook.pdf -o out.wav</code></pre>
+      </div>
+
+      <div class="usage-block">
+        <h3>make_audiobook: MP3 and MP4 from one file</h3>
+        <p>Narrates a single PDF or Markdown file and writes both an MP3 and a YouTube-ready MP4 with a static cover.</p>
+        <pre><code>./make_audiobook mybook.pdf
+./make_audiobook notes.md -o ~/out/ --engine kokoro --voice am_michael</code></pre>
+      </div>
+
+      <div class="usage-block">
+        <h3>narrate_book: the chapter-aware flagship</h3>
+        <p>Reads a folder of per-chapter Markdown files in order and produces one MP3 and MP4 with heading announcements, epigraph beats, paragraph breaths, and chapter-end rests. Works in any language Piper has a voice for.</p>
+        <pre><code>./narrate_book mybook/chapters --voice am_michael --cover-pdf book.pdf
+
+./narrate_book mybook/persian --engine piper --voice fa_IR-ganji_adabi-medium \
+    --chapter-label فصل --cover-pdf mybook-fa.pdf --name mybook-fa</code></pre>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site">
+  <div class="container">
+    <p>Apache-2.0 &nbsp;|&nbsp; © 2026 <a href="https://cocode.dk" target="_blank" rel="noreferrer">Cocode</a> &nbsp;|&nbsp; Created by <a href="https://linkedin.com/in/babakbandpey" target="_blank" rel="noreferrer">Babak Bandpey</a></p>
+  </div>
+</footer>
+
+</body>
+</html>

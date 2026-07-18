@@ -1,0 +1,16 @@
+#!/bin/sh
+# Commit-msg hook: enforce Conventional Commits format.
+set -eu
+
+MSG=$(cat "$1")
+
+PATTERN='^(feat|fix|chore|docs|style|refactor|test|ci|build|perf|revert)(\(.+\))?: .+'
+
+if ! printf '%s' "$MSG" | grep -qE "$PATTERN"; then
+    echo "Commit message does not follow Conventional Commits format." >&2
+    echo "" >&2
+    echo "Format:  <type>(<optional scope>): <description>" >&2
+    echo "Types:   feat, fix, chore, docs, style, refactor, test, ci, build, perf, revert" >&2
+    echo "Example: feat(pdf2speech): add support for multi-column PDFs" >&2
+    exit 1
+fi

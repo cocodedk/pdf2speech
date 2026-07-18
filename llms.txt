@@ -1,0 +1,27 @@
+# pdf2speech
+
+> Offline toolkit that converts PDF or Markdown books into audiobook MP3s
+> and YouTube-ready MP4 videos using local neural TTS (Kokoro + Piper).
+
+pdf2speech runs entirely on the local machine — text extraction and speech
+synthesis never leave the device. It offers three command-line tools: a
+quick PDF-to-WAV draft converter, a single-file MP3+MP4 audiobook maker,
+and a flagship chapter-aware narrator that reads structured Markdown books
+with pauses at chapter headings, epigraphs, paragraphs, and chapter ends.
+Voices cover English (Kokoro-82M, Piper) as well as Persian and Danish
+(Piper).
+
+## Docs
+
+- [README](README.md): project overview, usage examples, build-from-source
+  instructions, and architecture.
+- [CLAUDE.md](CLAUDE.md): operational knowledge for engines, languages,
+  extraction, packaging, and verification.
+- [Website](https://cocodedk.github.io/pdf2speech/): project homepage
+  (English and Persian).
+
+## Source
+
+- [pdf2speech](pdf2speech.py): PDF -> WAV, fast draft tool using Piper.
+- [make_audiobook](make_audiobook.py): PDF/Markdown -> MP3 + MP4, Kokoro or Piper.
+- [narrate_book](narrate_book.py): chapter-aware Markdown -> MP3 + MP4, flagship tool.

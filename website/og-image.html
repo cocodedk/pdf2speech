@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>pdf2speech</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 1200px;
+    height: 630px;
+    background: #0e1116;
+    overflow: hidden;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    position: relative;
+  }
+  .bg-wash {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 900px 500px at 78% 8%, rgba(232, 163, 61, 0.13), transparent 60%),
+      linear-gradient(180deg, #0e1116 0%, #0b0d11 100%);
+  }
+  .frame {
+    position: absolute;
+    inset: 28px;
+    border: 1px solid #262d38;
+    border-radius: 18px;
+  }
+  .stage {
+    position: relative;
+    width: 1200px;
+    height: 630px;
+    display: flex;
+    align-items: center;
+    padding: 0 90px;
+  }
+  .mark {
+    flex: 0 0 auto;
+    width: 220px;
+    height: 220px;
+    margin-inline-end: 66px;
+  }
+  .copy {
+    flex: 1 1 auto;
+  }
+  .kicker {
+    color: #e8a33d;
+    font-size: 21px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin: 0 0 18px;
+  }
+  h1 {
+    font-family: Georgia, "Times New Roman", Cambria, serif;
+    font-size: 62px;
+    line-height: 1.14;
+    color: #f2ead9;
+    margin: 0 0 20px;
+    max-width: 11ch;
+  }
+  p.tag {
+    font-size: 25px;
+    line-height: 1.5;
+    color: #b9b2a3;
+    margin: 0;
+    max-width: 42ch;
+  }
+  .footer {
+    position: absolute;
+    left: 90px;
+    right: 90px;
+    bottom: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 19px;
+    color: #8a8375;
+  }
+  .footer .langs {
+    color: #e8a33d;
+    letter-spacing: 0.04em;
+  }
+</style>
+</head>
+<body>
+  <div class="bg-wash"></div>
+  <div class="frame"></div>
+  <div class="stage">
+    <svg class="mark" viewBox="0 0 64 64" aria-hidden="true">
+      <rect width="64" height="64" rx="14" fill="#161b22"/>
+      <path d="M32 30 C 24 25 12 26 8 31 L8 47 C 12 42 24 41 32 46 Z" fill="#f2ead9"/>
+      <path d="M32 30 C 40 25 52 26 56 31 L56 47 C 52 42 40 41 32 46 Z" fill="#f2ead9"/>
+      <path d="M32 30 L32 46" stroke="#c9bfa3" stroke-width="1.5"/>
+      <path d="M23 21 Q 32 12 41 21" fill="none" stroke="#e8a33d" stroke-width="3.4" stroke-linecap="round"/>
+      <path d="M17 26 Q 32 6 47 26" fill="none" stroke="#e8a33d" stroke-width="3.4" stroke-linecap="round"/>
+    </svg>
+    <div class="copy">
+      <p class="kicker">Offline text-to-speech toolkit</p>
+      <h1>pdf2speech</h1>
+      <p class="tag">Turn a PDF or chapter Markdown into an audiobook MP3 and a YouTube-ready MP4, narrated offline with natural neural voices.</p>
+    </div>
+  </div>
+  <div class="footer">
+    <span>Built by Babak Bandpey &middot; cocode.dk</span>
+    <span class="langs">EN &middot; FA</span>
+  </div>
+</body>
+</html>

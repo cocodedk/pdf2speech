@@ -1,0 +1,61 @@
+name: Release
+
+# Manual only: no push trigger, so tagging/releasing here can never
+# self-trigger another workflow run.
+on:
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: Version part to bump
+        type: choice
+        options: [patch, minor, major]
+        default: patch
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          fetch-depth: 0
+
+      - name: Determine next version
+        id: version
+        run: |
+          set -euo pipefail
+          latest="$(git tag --list 'v*' --sort=-version:refname | head -1)"
+          latest="${latest:-v0.0.0}"
+          if [[ ! "$latest" =~ ^v([0-9]+)\.([0-9]+)\.([0-9]+)$ ]]; then
+            echo "error: latest tag '$latest' is not a valid vMAJOR.MINOR.PATCH tag" >&2
+            exit 1
+          fi
+          major="${BASH_REMATCH[1]}"
+          minor="${BASH_REMATCH[2]}"
+          patch="${BASH_REMATCH[3]}"
+          case "${{ inputs.bump }}" in
+            major) major=$((major + 1)); minor=0; patch=0 ;;
+            minor) minor=$((minor + 1)); patch=0 ;;
+            patch) patch=$((patch + 1)) ;;
+          esac
+          next="v${major}.${minor}.${patch}"
+          echo "Latest tag: $latest -> next: $next"
+          echo "next=$next" >> "$GITHUB_OUTPUT"
+
+      - name: Tag and push
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git tag "${{ steps.version.outputs.next }}"
+          git push origin "${{ steps.version.outputs.next }}"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65 # v2
+        with:
+          tag_name: ${{ steps.version.outputs.next }}
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

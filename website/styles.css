@@ -1,0 +1,463 @@
+/*
+  pdf2speech - shared stylesheet (EN + FA)
+  Identity: "a book that speaks". Deep ink background, one warm amber
+  accent, soft cream text. Serif headings, system sans body.
+  Mobile-first: base styles target ~360px; min-width layers at
+  640 / 768 / 1024px. [dir="rtl"] holds the Persian overrides.
+*/
+
+:root {
+  --ink: #0e1116;
+  --ink-raised: #161b22;
+  --ink-line: #262d38;
+  --amber: #e8a33d;
+  --amber-soft: rgba(232, 163, 61, 0.14);
+  --cream: #f2ead9;
+  --cream-dim: #b9b2a3;
+  --serif: Georgia, "Times New Roman", Cambria, serif;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono",
+    monospace;
+  --max: 46rem;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--cream);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+img,
+svg {
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: var(--amber);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+a:hover,
+a:focus-visible {
+  text-decoration-thickness: 2px;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--serif);
+  line-height: 1.25;
+  color: var(--cream);
+}
+
+h1 {
+  font-size: 1.9rem;
+  margin: 0 0 0.75rem;
+}
+
+h2 {
+  font-size: 1.4rem;
+  margin: 0 0 1rem;
+}
+
+h3 {
+  font-size: 1.1rem;
+  margin: 0 0 0.5rem;
+}
+
+p {
+  margin: 0 0 1rem;
+}
+
+.container {
+  width: 100%;
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+/* ---------- header / nav ---------- */
+
+header.site {
+  border-bottom: 1px solid var(--ink-line);
+  padding: 1rem 0;
+}
+
+header.site .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  color: var(--cream);
+  text-decoration: none;
+}
+
+.brand img,
+.brand svg {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
+
+nav.site-nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+nav.site-nav a {
+  color: var(--cream-dim);
+  text-decoration: none;
+  font-size: 0.95rem;
+  padding: 0.4rem 0.2rem;
+}
+
+nav.site-nav a:hover,
+nav.site-nav a:focus-visible {
+  color: var(--amber);
+}
+
+.lang-switch {
+  border: 1px solid var(--ink-line);
+  border-radius: 999px;
+  padding: 0.4rem 0.9rem !important;
+  color: var(--cream) !important;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.lang-switch:hover,
+.lang-switch:focus-visible {
+  border-color: var(--amber);
+  color: var(--amber) !important;
+}
+
+/* ---------- hero ---------- */
+
+.hero {
+  padding: 2.75rem 0 2.25rem;
+}
+
+.hero .kicker {
+  color: var(--amber);
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin: 0 0 0.75rem;
+}
+
+.hero h1 {
+  max-width: 22ch;
+}
+
+.hero .lede {
+  font-size: 1.05rem;
+  color: var(--cream-dim);
+  max-width: 42ch;
+}
+
+.cta-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0.7rem 1.3rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.98rem;
+  border: 1px solid transparent;
+}
+
+.btn-primary {
+  background: var(--amber);
+  color: #1a1305;
+}
+
+.btn-primary:hover,
+.btn-primary:focus-visible {
+  background: #f0b054;
+}
+
+.btn-secondary {
+  border-color: var(--ink-line);
+  color: var(--cream);
+}
+
+.btn-secondary:hover,
+.btn-secondary:focus-visible {
+  border-color: var(--amber);
+  color: var(--amber);
+}
+
+/* ---------- sections ---------- */
+
+section {
+  padding: 2.25rem 0;
+  border-top: 1px solid var(--ink-line);
+}
+
+section .section-intro {
+  color: var(--cream-dim);
+  max-width: 46ch;
+  margin: 0 0 1.5rem;
+}
+
+/* ---------- feature grid ---------- */
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+
+.feature {
+  background: var(--ink-raised);
+  border: 1px solid var(--ink-line);
+  border-radius: 10px;
+  padding: 1.25rem;
+}
+
+.feature h3 {
+  color: var(--amber);
+}
+
+.feature p {
+  color: var(--cream-dim);
+  margin: 0;
+  font-size: 0.96rem;
+}
+
+/* ---------- steps ---------- */
+
+.steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+  counter-reset: step;
+}
+
+.steps li {
+  position: relative;
+  padding-inline-start: 3rem;
+}
+
+.steps .num {
+  position: absolute;
+  inset-inline-start: 0;
+  top: 0;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 50%;
+  background: var(--amber-soft);
+  color: var(--amber);
+  font-family: var(--serif);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+}
+
+.steps h3 {
+  margin-bottom: 0.35rem;
+}
+
+.steps p {
+  color: var(--cream-dim);
+  margin: 0;
+  font-size: 0.96rem;
+}
+
+/* ---------- code blocks ---------- */
+
+pre {
+  background: #090b0f;
+  border: 1px solid var(--ink-line);
+  border-radius: 8px;
+  padding: 1rem;
+  overflow-x: auto;
+  font-size: 0.85rem;
+  line-height: 1.55;
+  -webkit-overflow-scrolling: touch;
+}
+
+code {
+  font-family: var(--mono);
+  color: var(--cream);
+}
+
+p code,
+li code {
+  background: var(--ink-raised);
+  border: 1px solid var(--ink-line);
+  border-radius: 4px;
+  padding: 0.1rem 0.35rem;
+  font-size: 0.88em;
+}
+
+.note {
+  font-size: 0.9rem;
+  color: var(--cream-dim);
+  border-inline-start: 3px solid var(--amber);
+  padding-inline-start: 0.85rem;
+  margin: 1rem 0;
+}
+
+.usage-block {
+  margin-bottom: 2rem;
+}
+
+.usage-block:last-child {
+  margin-bottom: 0;
+}
+
+/* ---------- footer ---------- */
+
+footer.site {
+  border-top: 1px solid var(--ink-line);
+  padding: 2rem 0 2.5rem;
+}
+
+footer.site p {
+  color: var(--cream-dim);
+  font-size: 0.88rem;
+  margin: 0;
+}
+
+footer.site a {
+  color: var(--cream-dim);
+}
+
+footer.site a:hover,
+footer.site a:focus-visible {
+  color: var(--amber);
+}
+
+/* ---------- breakpoints ---------- */
+
+@media (min-width: 640px) {
+  .hero h1 {
+    font-size: 2.35rem;
+  }
+
+  .cta-row {
+    flex-direction: row;
+  }
+
+  .feature-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 768px) {
+  h1 {
+    font-size: 2.6rem;
+  }
+
+  h2 {
+    font-size: 1.65rem;
+  }
+
+  .hero {
+    padding: 4rem 0 3rem;
+  }
+
+  .steps {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .steps li {
+    padding-inline-start: 0;
+    padding-top: 3rem;
+  }
+
+  .steps .num {
+    inset-inline-start: 0;
+    top: 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .feature-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .hero .lede {
+    font-size: 1.15rem;
+  }
+}
+
+/* ============================================================
+   RTL (Persian) overrides
+   ============================================================ */
+
+[dir="rtl"] body {
+  font-family: "Vazirmatn", var(--sans);
+}
+
+[dir="rtl"] h1,
+[dir="rtl"] h2,
+[dir="rtl"] h3 {
+  font-family: "Vazirmatn", var(--serif);
+  font-weight: 700;
+}
+
+[dir="rtl"] .kicker {
+  letter-spacing: 0;
+}
+
+[dir="rtl"] code,
+[dir="rtl"] pre,
+[dir="rtl"] .steps .num {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+[dir="rtl"] pre {
+  text-align: left;
+}
+
+[dir="rtl"] .note {
+  border-inline-start: none;
+  border-inline-end: 3px solid var(--amber);
+  padding-inline-start: 0;
+  padding-inline-end: 0.85rem;
+}

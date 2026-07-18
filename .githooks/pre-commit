@@ -1,0 +1,8 @@
+#!/bin/sh
+# Pre-commit hook: fast static check only (ruff).
+set -eu
+
+RUFF="$(git rev-parse --show-toplevel)/.venv/bin/ruff"
+[ -x "$RUFF" ] || RUFF=ruff
+
+"$RUFF" check .
