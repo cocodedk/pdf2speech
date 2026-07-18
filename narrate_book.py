@@ -143,6 +143,12 @@ def main() -> None:
         help="PDF whose first page becomes the video cover "
         "(default: a title card generated from the book title)",
     )
+    parser.add_argument(
+        "--audio-bitrate", default="192k", help="audio bitrate for MP3 and MP4"
+    )
+    parser.add_argument(
+        "--no-mp3", action="store_true", help="produce only the MP4"
+    )
     args = parser.parse_args()
 
     md_files = sorted(args.chapters_dir.glob("*.md"))
@@ -219,7 +225,7 @@ def main() -> None:
 
         with wave.open(str(wav_path), "rb") as wav_file:
             seconds = wav_file.getnframes() / wav_file.getframerate()
-        print(f"Synthesized {seconds / 60:.1f} minutes of audio. Encoding MP3...")
+        print(f"Synthesized {seconds / 60:.1f} minutes of audio.")
 
         # YouTube chapter list: description-ready timestamps. YouTube needs the
         # first stamp at 0:00 and at least 10 seconds per chapter, so any
@@ -245,8 +251,13 @@ def main() -> None:
             encoding="utf-8",
         )
         print(f"Wrote {chapters_txt} (YouTube chapter list).")
-        run_ffmpeg(["-i", str(wav_path), "-c:a", "libmp3lame", "-b:a", "192k", str(mp3)])
-        print(f"Wrote {mp3}. Encoding MP4...")
+        if not args.no_mp3:
+            print("Encoding MP3...")
+            run_ffmpeg(
+                ["-i", str(wav_path), "-c:a", "libmp3lame", "-b:a", args.audio_bitrate, str(mp3)]
+            )
+            print(f"Wrote {mp3}.")
+        print("Encoding MP4...")
 
         cover = pdf_cover(args.cover_pdf) if args.cover_pdf else title_card(title)
         cover_png = Path(tmp) / "cover.png"
@@ -256,7 +267,7 @@ def main() -> None:
                 "-loop", "1", "-framerate", "5", "-i", str(cover_png),
                 "-i", str(wav_path),
                 "-c:v", "libx264", "-tune", "stillimage",
-                "-c:a", "aac", "-b:a", "192k",
+                "-c:a", "aac", "-b:a", args.audio_bitrate,
                 "-pix_fmt", "yuv420p", "-shortest", "-movflags", "+faststart",
                 str(mp4),
             ]
