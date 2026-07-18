@@ -55,7 +55,9 @@ quality ceiling is whatever runs locally.
 
 ## Engines: measured facts (this machine)
 
-- **Kokoro-82M** (default): the best local quality. ~3x realtime on CPU.
+- **Kokoro-82M** (default): the best local quality. ~3x realtime on CPU,
+  **~39x on this machine's RTX 2060 via CUDA** (measured 2026-07-18; auto-
+  selected when torch sees the GPU — no flags needed).
   English voices: `am_michael` (male narrator, ~167 wpm natural - already
   moderate, never stretch it), `af_heart` (best female). No Persian; langs
   are en/es/fr/hi/it/ja/pt/zh. First use downloads ~330 MB from HF.
@@ -86,8 +88,16 @@ quality ceiling is whatever runs locally.
 ## Environment quirks
 
 - No system pip/ensurepip: `.venv` was built `--without-pip` + get-pip.py.
-- Install torch CPU-only BEFORE `requirements.txt`, or pip pulls the CUDA
-  build: `pip install torch --index-url https://download.pytorch.org/whl/cpu`.
+- **GPU**: this machine has an NVIDIA RTX 2060 Mobile (6 GB). It was dark
+  because `prime-select` was set to `intel`, which blacklists the driver
+  via `/lib/modprobe.d/blacklist-nvidia.conf`. Fixed 2026-07-18 with
+  `sudo prime-select on-demand` + `sudo modprobe -a nvidia nvidia-uvm`
+  (no reboot needed). The `.venv` now carries the default-PyPI CUDA torch
+  (`2.13.0+cu130`); note pip treats `+cpu` as satisfying the same version,
+  so switching builds requires `pip uninstall torch` first.
+- On machines WITHOUT an NVIDIA GPU (and in CI), install torch CPU-only
+  BEFORE `requirements.txt`, or pip pulls the multi-GB CUDA build:
+  `pip install torch --index-url https://download.pytorch.org/whl/cpu`.
 - No system ffmpeg. Use the bundled static one:
   `.venv/bin/python -c "import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())"`
   (has libx264, aac, libmp3lame).
