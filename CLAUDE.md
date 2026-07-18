@@ -99,9 +99,13 @@ quality ceiling is whatever runs locally.
   project: **narration is on hold** (author, 2026-07-15; do not run or
   suggest `build_all.fish` / narration until the text settles), the repo is
   private, and its house style bans em-dashes.
-- `build_all.fish` there = rebuild PDFs + narrate ALL editions:
+- `build/build_all.fish` there = rebuild PDFs + narrate ALL editions:
   English via Kokoro `am_michael` -> `unjudgeable.mp3/.mp4`, Persian via
   Piper `fa_IR-ganji-medium` with «فصل» labels -> `unjudgeable-fa.mp3/.mp4`,
   Danish via Piper `da_DK-talesyntese-medium` with "Kapitel" labels ->
-  `unjudgeable-da.mp3/.mp4`; all in the book root (gitignored).
+  `unjudgeable-da.mp3/.mp4`; **all into `media/`** (mp3/mp4 gitignored).
+  When running a single edition manually, always pass `-o media` and copy
+  the voice/label/cover flags from the script, or outputs land in the
+  book root by default (narrate_book defaults to the chapters folder's
+  parent).
 - `voice-samples/` there holds all auditioned voices (English and Persian).
