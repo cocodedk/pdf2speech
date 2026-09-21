@@ -6,8 +6,8 @@ with chapter-aware pacing and support for English, Persian, and Danish.
 
 ## Website
 
-- [English](https://cocodedk.github.io/pdf2speech/)
-- [فارسی (Persian)](https://cocodedk.github.io/pdf2speech/fa/)
+- [English](https://pdf2speech.cocode.dk/)
+- [فارسی (Persian)](https://pdf2speech.cocode.dk/fa/)
 
 ## Features
 

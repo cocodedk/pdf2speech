@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://cocodedk.github.io/pdf2speech/sitemap.xml
+Sitemap: https://pdf2speech.cocode.dk/sitemap.xml

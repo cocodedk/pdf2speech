@@ -17,7 +17,7 @@ Voices cover English (Kokoro-82M, Piper) as well as Persian and Danish
   instructions, and architecture.
 - [CLAUDE.md](CLAUDE.md): operational knowledge for engines, languages,
   extraction, packaging, and verification.
-- [Website](https://cocodedk.github.io/pdf2speech/): project homepage
+- [Website](https://pdf2speech.cocode.dk/): project homepage
   (English and Persian).
 
 ## Source
