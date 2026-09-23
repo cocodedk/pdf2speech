@@ -91,72 +91,8 @@ p {
   padding: 0 1.25rem;
 }
 
-/* ---------- header / nav ---------- */
-
-header.site {
-  border-bottom: 1px solid var(--ink-line);
-  padding: 1rem 0;
-}
-
-header.site .container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-  flex-wrap: wrap;
-}
-
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  font-family: var(--serif);
-  font-size: 1.15rem;
-  color: var(--cream);
-  text-decoration: none;
-}
-
-.brand img,
-.brand svg {
-  width: 28px;
-  height: 28px;
-  flex-shrink: 0;
-}
-
-nav.site-nav {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-
-nav.site-nav a {
-  color: var(--cream-dim);
-  text-decoration: none;
-  font-size: 0.95rem;
-  padding: 0.4rem 0.2rem;
-}
-
-nav.site-nav a:hover,
-nav.site-nav a:focus-visible {
-  color: var(--amber);
-}
-
-.lang-switch {
-  border: 1px solid var(--ink-line);
-  border-radius: 999px;
-  padding: 0.4rem 0.9rem !important;
-  color: var(--cream) !important;
-  min-height: 44px;
-  display: inline-flex;
-  align-items: center;
-}
-
-.lang-switch:hover,
-.lang-switch:focus-visible {
-  border-color: var(--amber);
-  color: var(--amber) !important;
-}
+/* The cocode.dk frame lines up with this column; keep the gutters in step. */
+cocode-head, cocode-foot { --cocode-max: 64rem; --cocode-gutter: 1.25rem; }
 
 /* ---------- hero ---------- */
 
